@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="516.0" prefWidth="315.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="snk.institutereportsystem.boundary.AdminBoundary">
+   <children>
+      <Text layoutX="121.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Меню" wrappingWidth="72.13671875">
+         <font>
+            <Font name="Book Antiqua" size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="87.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Акакий Акакиевич Лар" wrappingWidth="203.0">
+         <font>
+            <Font name="Book Antiqua" size="18.0" />
+         </font>
+      </Text>
+      <Button layoutX="124.0" layoutY="473.0" mnemonicParsing="false" text="Выход">
+         <font>
+            <Font name="Book Antiqua" size="15.0" />
+         </font>
+      </Button>
+      <Text layoutX="128.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Добро пожаловать,">
+         <font>
+            <Font name="Book Antiqua" size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="110.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Сотрудник">
+         <font>
+            <Font name="Book Antiqua Italic" size="18.0" />
+         </font>
+      </Text>
+      <Line endX="219.0" layoutX="95.0" layoutY="78.0" startX="-100.0" />
+      <ImageView fitHeight="59.0" fitWidth="65.0" layoutX="7.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/icons8-atom-editor-64.png" />
+         </image>
+      </ImageView>
+      <ScrollPane layoutX="54.0" layoutY="189.0" prefHeight="255.0" prefWidth="200.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="260.0" prefWidth="183.0" />
+        </content>
+      </ScrollPane>
+      <Text layoutX="99.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ваши отчёты">
+         <font>
+            <Font name="Book Antiqua" size="18.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

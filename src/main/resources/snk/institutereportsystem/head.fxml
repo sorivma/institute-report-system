@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="370.0" prefWidth="309.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="snk.institutereportsystem.boundary.AdminBoundary">
+   <children>
+      <Text layoutX="120.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Меню" wrappingWidth="72.13671875">
+         <font>
+            <Font name="Book Antiqua" size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="87.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Акакий Акакиевич Лар" wrappingWidth="203.0">
+         <font>
+            <Font name="Book Antiqua" size="18.0" />
+         </font>
+      </Text>
+      <Button layoutX="123.0" layoutY="319.0" mnemonicParsing="false" text="Выход">
+         <font>
+            <Font name="Book Antiqua" size="15.0" />
+         </font>
+      </Button>
+      <Button layoutX="59.0" layoutY="231.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="196.0" text="Назначение тем">
+         <font>
+            <Font name="Book Antiqua" size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="57.0" layoutY="166.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="196.0" text="Проверка отчётов">
+         <font>
+            <Font name="Book Antiqua" size="17.0" />
+         </font>
+      </Button>
+      <Text layoutX="128.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Добро пожаловать,">
+         <font>
+            <Font name="Book Antiqua" size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="100.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Руководитель">
+         <font>
+            <Font name="Book Antiqua Italic" size="18.0" />
+         </font>
+      </Text>
+      <Line endX="219.0" layoutX="95.0" layoutY="78.0" startX="-100.0" />
+      <ImageView fitHeight="59.0" fitWidth="65.0" layoutX="7.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/icons8-atom-editor-64.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
