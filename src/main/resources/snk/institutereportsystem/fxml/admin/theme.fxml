@@ -6,16 +6,16 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="403.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="snk.institutereportsystem.Theme">
+<AnchorPane prefHeight="403.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="snk.institutereportsystem.boundary.AdminBoundary">
    <children>
       <ScrollPane layoutX="38.0" layoutY="76.0" prefHeight="263.0" prefWidth="219.0">
          <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="329.0" prefWidth="200.0" />
+            <VBox fx:id="themeList" prefHeight="267.0" prefWidth="203.0" />
          </content>
       </ScrollPane>
       <Text layoutX="80.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Перечень тем" wrappingWidth="135.13671875">
@@ -28,19 +28,20 @@
             <Font name="Book Antiqua" size="20.0" />
          </font>
       </Text>
-      <Button layoutX="461.0" layoutY="354.0" mnemonicParsing="false" text="Добавить" />
+      <Button fx:id="addThemeBtn" layoutX="461.0" layoutY="354.0" mnemonicParsing="false" onAction="#addThemeHndl" text="Добавить" />
       <ImageView fitHeight="292.0" fitWidth="200.0" layoutX="232.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/molecules.png" />
+            <Image url="@../../images/molecules.png" />
          </image>
       </ImageView>
-      <TextArea layoutX="395.0" layoutY="76.0" prefHeight="263.0" prefWidth="200.0" promptText="Введите название темы" />
+      <TextArea fx:id="themeName" layoutX="395.0" layoutY="76.0" prefHeight="263.0" prefWidth="200.0" promptText="Введите название темы" />
       <ImageView fitHeight="292.0" fitWidth="200.0" layoutX="232.0" layoutY="201.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/molecules.png" />
+            <Image url="@../../images/molecules.png" />
          </image>
       </ImageView>
       <Line endX="-0.5" endY="401.0" layoutX="332.0" layoutY="2.0" startX="-0.5" startY="-2.0" stroke="#4a4242bf" />
-      <Button layoutX="123.0" layoutY="354.0" mnemonicParsing="false" text="Назад" />
+      <Button fx:id="backBtn" layoutX="123.0" layoutY="354.0" mnemonicParsing="false" onAction="#goBack" text="Назад" />
+      <Text fx:id="themeDeleteError" layoutX="138.0" layoutY="394.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="19.0" />
    </children>
 </AnchorPane>

@@ -44,14 +44,26 @@ public class AuthorizeController {
         Role role = user.getRole();
         String scene_url;
         switch (role) {
-            case ADMIN -> scene_url = "admin.fxml";
-            case HEAD -> scene_url = "head.fxml";
-            case EMPLOYEE -> scene_url = "employee.fxml";
-            default -> {
-                throw new IllegalRoleException();
-            }
+            case ADMIN -> scene_url = "fxml/admin/admin.fxml";
+            case HEAD -> scene_url = "fxml/head/head.fxml";
+            case EMPLOYEE -> scene_url = "fxml/employee/employee.fxml";
+            default -> throw new IllegalRoleException();
         }
 
         return scene_url;
+    }
+
+    public String getFullName(Long id){
+        User user = repository.getUser(id);
+
+        if (user == null) {
+            return "Ошибка чтения пользователя";
+        }
+
+        return user.getSurname() + " " + user.getName() + " " + user.getPatronymic();
+    }
+
+    public User getUser(Long id){
+        return repository.getUser(id);
     }
 }

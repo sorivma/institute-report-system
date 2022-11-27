@@ -15,22 +15,22 @@
             <Font name="Book Antiqua" size="23.0" />
          </font>
       </Text>
-      <Text layoutX="87.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Акакий Акакиевич Лар" wrappingWidth="203.0">
+      <Text fx:id="fullNameField" layoutX="87.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Акакий Акакиевич Лар" wrappingWidth="203.0">
          <font>
             <Font name="Book Antiqua" size="18.0" />
          </font>
       </Text>
-      <Button layoutX="123.0" layoutY="319.0" mnemonicParsing="false" text="Выход">
+      <Button fx:id="logOut" layoutX="123.0" layoutY="319.0" mnemonicParsing="false" onAction="#handleLogOut" text="Выход">
          <font>
             <Font name="Book Antiqua" size="15.0" />
          </font>
       </Button>
-      <Button layoutX="59.0" layoutY="231.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="196.0" text="Назначение тем">
+      <Button layoutX="59.0" layoutY="231.0" mnemonicParsing="false" onAction="#handleThe" prefHeight="38.0" prefWidth="196.0" text="Список тем">
          <font>
             <Font name="Book Antiqua" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="57.0" layoutY="166.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="196.0" text="Проверка отчётов">
+      <Button layoutX="57.0" layoutY="166.0" mnemonicParsing="false" onAction="#handleEmp" prefHeight="38.0" prefWidth="196.0" text="Список сотрудников">
          <font>
             <Font name="Book Antiqua" size="17.0" />
          </font>
@@ -40,7 +40,7 @@
             <Font name="Book Antiqua" size="18.0" />
          </font>
       </Text>
-      <Text layoutX="100.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Руководитель">
+      <Text layoutX="90.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Администратор">
          <font>
             <Font name="Book Antiqua Italic" size="18.0" />
          </font>
@@ -48,7 +48,7 @@
       <Line endX="219.0" layoutX="95.0" layoutY="78.0" startX="-100.0" />
       <ImageView fitHeight="59.0" fitWidth="65.0" layoutX="7.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/icons8-atom-editor-64.png" />
+            <Image url="@../../images/icons8-atom-editor-64.png" />
          </image>
       </ImageView>
    </children>

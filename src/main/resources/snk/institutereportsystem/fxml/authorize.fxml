@@ -15,7 +15,7 @@
    <children>
       <ImageView fitHeight="203.0" fitWidth="182.0" layoutX="14.0" layoutY="187.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/chemistry.png" />
+            <Image url="@../images/chemistry.png" />
          </image>
       </ImageView>
       <Label layoutX="90.0" layoutY="127.0" text="Авторизация">
@@ -23,15 +23,15 @@
             <Font name="Book Antiqua" size="25.0" />
          </font>
       </Label>
-      <TextField id="TextField" fx:id="idField" layoutX="69.0" layoutY="186.0" promptText="Id" stylesheets="@css/styles.css">
+      <TextField id="TextField" fx:id="idField" layoutX="69.0" layoutY="186.0" promptText="Id" stylesheets="@../css/styles.css">
          <font>
             <Font name="Book Antiqua" size="15.0" />
          </font></TextField>
-      <Button id="Button" fx:id="logIn" layoutX="131.0" layoutY="320.0" mnemonicParsing="false" onAction="#handleLogIn" stylesheets="@css/styles.css" text="Войти">
+      <Button id="Button" fx:id="logIn" layoutX="131.0" layoutY="320.0" mnemonicParsing="false" onAction="#handleLogIn" stylesheets="@../css/styles.css" text="Войти">
          <font>
             <Font name="Book Antiqua" size="15.0" />
          </font></Button>
-      <PasswordField id="TextField" fx:id="passwordField" layoutX="67.0" layoutY="236.0" promptText="Пароль" stylesheets="@css/styles.css">
+      <PasswordField id="TextField" fx:id="passwordField" layoutX="67.0" layoutY="236.0" promptText="Пароль" stylesheets="@../css/styles.css">
          <font>
             <Font name="Book Antiqua" size="15.0" />
          </font></PasswordField>
@@ -47,7 +47,7 @@
       </Text>
       <ImageView fitHeight="65.0" fitWidth="75.0" layoutX="134.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/icons8-atom-editor-64.png" />
+            <Image url="@../images/icons8-atom-editor-64.png" />
          </image>
       </ImageView>
    </children>

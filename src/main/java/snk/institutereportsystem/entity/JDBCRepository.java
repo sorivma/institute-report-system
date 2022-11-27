@@ -3,11 +3,14 @@ package snk.institutereportsystem.entity;
 import org.sqlite.SQLiteDataSource;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
  * Singleton класс взаимодействия с базой данных
+ *
  * @author Арсений Дубровский
  * @version 2.1
  */
@@ -23,6 +26,7 @@ public final class JDBCRepository {
 
     /**
      * Метод для возвращения instance`а экземпляра класса
+     *
      * @return - экземпляр класса JDBCRepository
      */
     public static synchronized JDBCRepository getInstance() {
@@ -79,6 +83,7 @@ public final class JDBCRepository {
 
     /**
      * Конструктор класса, открывающий соединение с базой данных или создающий её.
+     *
      * @throws SQLException - SQL ошибка
      */
     private JDBCRepository() throws SQLException {
@@ -94,6 +99,7 @@ public final class JDBCRepository {
 
     /**
      * Метод добавления пользователя в базу данных
+     *
      * @param user - Пользователь
      */
     public void addUser(User user) {
@@ -117,6 +123,7 @@ public final class JDBCRepository {
 
     /**
      * Метод получения пользователя из базы данных
+     *
      * @param id - id Пользователя
      * @return - экземпляр класса User или null при отсутсвии пользователя
      */
@@ -145,16 +152,17 @@ public final class JDBCRepository {
 
     /**
      * Метод получения всех пользователей из базы данных
+     *
      * @return - экземпляр Iterable, содержащий всех пользователей
      */
-    public Iterable<User> getAllUsers() {
+    public List<User> getAllUsers() {
         try {
             String SELECT_USERS = """
                     SELECT * FROM USERS
                     """;
             PreparedStatement getUsersStatement = connection.prepareStatement(SELECT_USERS);
             ResultSet resultSet = getUsersStatement.executeQuery();
-            Set<User> userSet = new HashSet<>();
+            List<User> userSet = new ArrayList<>();
             while (resultSet.next()) {
                 userSet.add(
                         new User(
@@ -171,13 +179,87 @@ public final class JDBCRepository {
             return userSet;
 
         } catch (SQLException e) {
+            System.out.println("Внутренняя ошибка бд");
+            return null;
+        }
+    }
+
+    public Iterable<User> getUsersByRole(Role role) {
+        try {
+            String SELECT_STATEMENT = """
+                    SELECT * FROM users WHERE role = ?
+                    """;
+            PreparedStatement statement = connection.prepareStatement(SELECT_STATEMENT);
+            statement.setString(1, role.toString());
+            ResultSet resultSet = statement.executeQuery();
+            List<User> users = new ArrayList<>();
+            while (resultSet.next()) {
+                users.add(
+                        new User(
+                                resultSet.getLong("userId"),
+                                resultSet.getString("userName"),
+                                resultSet.getString("surName"),
+                                resultSet.getString("patronymic"),
+                                resultSet.getString("password"),
+                                Role.valueOf(resultSet.getString("role"))
+                        )
+                );
+            }
+            return users;
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
         }
     }
 
+    public void updateUser(User user) {
+        System.out.println(user);
+        try {
+            String UPDATE_STATEMENT = """
+                    UPDATE users SET
+                    userName = ?,
+                    surName = ?,
+                    patronymic = ?,
+                    password = ?,
+                    role = ?
+                    WHERE userId = ?
+                    """;
+            PreparedStatement statement = connection.prepareStatement(UPDATE_STATEMENT);
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getSurname());
+            statement.setString(3, user.getPatronymic());
+            statement.setString(4, user.getPassword());
+            statement.setString(5, user.getRole().toString());
+            statement.setLong(6, user.getId());
+            statement.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void deleteUser(Long id) {
+        String DELETE_STATEMENT = """
+                DELETE FROM users WHERE userId = ?
+                """;
+        try {
+            PreparedStatement statement = connection.prepareStatement(DELETE_STATEMENT);
+            statement.setLong(1, id);
+            statement.execute();
+
+            String DELETE_REPORT_STATEMENT = """
+                    DELETE FROM reports WHERE userId = ?
+                    """;
+            PreparedStatement reportStatement = connection.prepareStatement(DELETE_REPORT_STATEMENT);
+            reportStatement.setLong(1, id);
+            reportStatement.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     /**
      * Метод добавления тем в базу данных
+     *
      * @param theme - экземпляр класса Theme
      */
     public void addTheme(Theme theme) {
@@ -196,6 +278,7 @@ public final class JDBCRepository {
 
     /**
      * Метод получения темы из базы данных
+     *
      * @param id - id темы
      * @return - экземпляр класса Theme
      */
@@ -217,9 +300,54 @@ public final class JDBCRepository {
         }
     }
 
+    public Iterable<Theme> getThemes() {
+        try {
+            String SELECT_THEMES = """
+                    SELECT * FROM themes
+                    """;
+            PreparedStatement getThemeStatement = connection.prepareStatement(SELECT_THEMES);
+            ResultSet resultSet = getThemeStatement.executeQuery();
+            Set<Theme> themeSet = new HashSet<>();
+            while (resultSet.next()) {
+                themeSet.add(
+                        new Theme(
+                                resultSet.getLong("themeId"),
+                                resultSet.getString("themeName")
+                        )
+                );
+            }
+            return themeSet;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public void deleteTheme(Long id) {
+        try {
+            String DELETE_STATEMENT = """
+                    DELETE FROM themes where themeId = ?
+                    """;
+            PreparedStatement deleteThemeStatement = connection.prepareStatement(DELETE_STATEMENT);
+            deleteThemeStatement.setLong(1, id);
+            deleteThemeStatement.execute();
+
+            String DELETE_REPORTS_THEME = """
+                    DELETE FROM reports WHERE themeId = ?
+                    """;
+            PreparedStatement deleteReportStatement = connection.prepareStatement(DELETE_REPORTS_THEME);
+            deleteReportStatement.setLong(1, id);
+            deleteReportStatement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * Метод назначения темы пользователю
-     * @param userId - id пользователя
+     *
+     * @param userId  - id пользователя
      * @param themeId - id темы
      */
     public void assignTheme(Long userId, Long themeId) {
@@ -240,7 +368,8 @@ public final class JDBCRepository {
 
     /**
      * Изменить статус отчёта
-     * @param status - статус отчёта
+     *
+     * @param status   - статус отчёта
      * @param reportId - id отчёта
      */
     public void changeReportStatus(Status status, Long reportId) {
@@ -263,9 +392,71 @@ public final class JDBCRepository {
 
     /**
      * Закрыть соединение базы данных
+     *
      * @throws SQLException - SQL ошибка
      */
     public void closeConnection() throws SQLException {
         this.connection.close();
+    }
+
+    public void updateTheme(Theme selectedTheme) {
+        try {
+            String UPDATE_STATEMENT = """
+                    UPDATE themes SET themeName = ? WHERE themeId = ?
+                    """;
+            PreparedStatement statement = connection.prepareStatement(UPDATE_STATEMENT);
+            statement.setString(1, selectedTheme.getName());
+            statement.setLong(2, selectedTheme.getId());
+            statement.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public Iterable<Theme> getThemesByUser(User user) {
+        try {
+            String GET_STATEMENT = """
+                    SELECT * FROM themes WHERE themeId IN (SELECT themeId FROM reports WHERE userId = ?)
+                    """;
+
+            PreparedStatement statement = connection.prepareStatement(GET_STATEMENT);
+            statement.setLong(1, user.getId());
+            ResultSet resultSet = statement.executeQuery();
+            List<Theme> themes = new ArrayList<>();
+            while (resultSet.next()) {
+                themes.add(
+                        new Theme(
+                                resultSet.getLong("themeId"),
+                                resultSet.getString("themeName")
+                        )
+                );
+            }
+            return themes;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public List<Theme> getFreeThemes() {
+        try {
+            String GET_STATEMENT = """
+                    SELECT * FROM themes WHERE themeId NOT IN (SELECT themeId FROM reports)
+                    """;
+            PreparedStatement statement = connection.prepareStatement(GET_STATEMENT);
+            ResultSet resultSet = statement.executeQuery();
+            List<Theme> themes = new ArrayList<>();
+            while (resultSet.next()) {
+                themes.add(
+                        new Theme(
+                                resultSet.getLong("themeId"),
+                                resultSet.getString("themeName")
+                        )
+                );
+            }
+            return themes;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

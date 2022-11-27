@@ -1,5 +1,6 @@
 package snk.institutereportsystem.boundary;
 
+import snk.institutereportsystem.entity.User;
 import snk.institutereportsystem.exceptions.IllegalRoleException;
 import snk.institutereportsystem.exceptions.NoSuchUserException;
 import snk.institutereportsystem.exceptions.WrongPasswordException;
@@ -64,10 +65,15 @@ public class AuthorizeBoundary {
      * Метод авторизации пользователя в системе, вызывает контроллер, который возвращает URL следующей сцены,
      * необходимой пользавателю
      */
+
+    public static String fullName;
+    public static User currentUser;
     @FXML
     private void handleLogIn() {
         try {
             String scene_url = authorizeController.authorize(Long.valueOf(idField.getText()), passwordField.getText());
+            fullName = authorizeController.getFullName(Long.valueOf(idField.getText()));
+            currentUser = authorizeController.getUser(Long.valueOf(idField.getText()));
             Parent root = FXMLLoader.load(Objects.requireNonNull(HelloApplication.class.getResource(scene_url)));
             Stage stage = (Stage) logIn.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -81,7 +87,7 @@ public class AuthorizeBoundary {
             errorMSG.setText("Обратитесь к администратору");
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Files corrupted");
         }
     }
 

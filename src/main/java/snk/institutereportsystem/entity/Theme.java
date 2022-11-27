@@ -19,4 +19,9 @@ public class Theme {
      * название темы
      */
     private String name;
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }
