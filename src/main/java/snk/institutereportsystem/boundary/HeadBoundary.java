@@ -7,15 +7,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import snk.institutereportsystem.HelloApplication;
 import snk.institutereportsystem.control.HeadController;
+import snk.institutereportsystem.entity.Report;
 import snk.institutereportsystem.entity.Theme;
 import snk.institutereportsystem.entity.User;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class HeadBoundary {
@@ -41,14 +44,27 @@ public class HeadBoundary {
     @FXML
     private VBox reportList;
 
+    @FXML
+    private Text theme;
+
+    @FXML
+    private Text employeeFullName;
+
+    @FXML
+    private TextArea reportBody;
+
 
     private static User selectedUser;
     private static Theme selectedTheme;
+    private static Report selectedReport;
 
 
     @FXML
     private void initialize() {
         if (employeeList != null) {
+            if (selectedUser != null){
+                initializeEmployersThemes(selectedUser);
+            }
             employeeList.getChildren().removeAll(employeeList.getChildren());
             Iterable<User> employers = headController.getEmployers();
             for (User user : employers) {
@@ -70,6 +86,37 @@ public class HeadBoundary {
                 employeeList.getChildren().add(button);
             }
             assignBtn.setItems(FXCollections.observableList(headController.getFreeThemes()));
+        }
+
+        if (reportList != null){
+            List<Report> unCheckedReports = headController.getUncheckedReports();
+            for (Report report : unCheckedReports){
+                User employee = headController.getUser(report.getUserId());
+                Button button = new Button(headController.getThemeName(report.getThemeId())
+                + "\n" + "Автор: " + employee.getSurname() + " " + employee.getName() + " " + employee.getPatronymic());
+                button.setOnAction(actionEvent -> {
+                    selectedReport = report;
+                    try {
+                        Parent root = FXMLLoader.load(Objects.requireNonNull(HelloApplication
+                                .class
+                                .getResource("fxml/head/check_report.fxml")));
+                        Stage stage = (Stage) reportList.getScene().getWindow();
+                        stage.setScene(new Scene(root));
+                        stage.setTitle("Проверка отчёта");
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+
+                    }
+                });
+                reportList.getChildren().add(button);
+            }
+        }
+
+        if (reportBody != null){
+            User user = headController.getUser(selectedReport.getUserId());
+            employeeFullName.setText(user.getSurname() + " " + user.getName() + user.getPatronymic());
+            theme.setText(headController.getThemeName(selectedReport.getThemeId()));
+            reportBody.setText(selectedReport.getText());
         }
 
     }
@@ -131,7 +178,7 @@ public class HeadBoundary {
     }
 
     private void initializeEmployersThemes(User user) {
-        Iterable<Theme> themes = headController.getThemes(selectedUser);
+        Iterable<Theme> themes = headController.getThemes(user);
         assignedThemes.getChildren().removeAll(assignedThemes.getChildren());
         for (Theme theme : themes) {
             Text themeText = new Text(theme.getName());
@@ -150,5 +197,31 @@ public class HeadBoundary {
     private void addThemeHndl() {
         headController.assignTheme(selectedUser, selectedTheme);
         initialize();
+    }
+
+    @FXML
+    private void backToReportsHndl(){
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(HelloApplication
+                    .class
+                    .getResource("fxml/head/reports_check.fxml")));
+            Stage stage = (Stage) backBtn.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Проверка отчётов");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @FXML
+    private void approveHndl(){
+        headController.approveReport(selectedReport);
+        backToReportsHndl();
+    }
+
+    @FXML
+    private void declineHndl(){
+        headController.declineReport(selectedReport);
+        backToReportsHndl();
     }
 }

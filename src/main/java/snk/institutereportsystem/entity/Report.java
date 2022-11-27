@@ -12,10 +12,14 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class Report {
+
+    private long reportId;
+
+    private long userId;
     /**
      * Поле темы отчёта
      */
-    private Theme theme;
+    private long themeId;
     /**
      * Поле текста отчёта
      */
@@ -24,4 +28,15 @@ public class Report {
      * Поле статуса отчёта
      */
     private Status status;
+
+    @Override
+    public String toString() {
+        return "Report{" +
+                "reportId=" + reportId +
+                ", userId=" + userId +
+                ", themeId=" + themeId +
+                ", text='" + text + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }

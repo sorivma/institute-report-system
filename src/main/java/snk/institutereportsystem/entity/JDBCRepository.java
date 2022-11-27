@@ -459,4 +459,73 @@ public final class JDBCRepository {
             throw new RuntimeException(e);
         }
     }
+
+    public List<Report> getReports(Long id) {
+        try{
+            String GET_STATEMENT = """
+                    SELECT * FROM reports WHERE userId = ?
+                    """;
+            PreparedStatement statement = connection.prepareStatement(GET_STATEMENT);
+            statement.setLong(1,id);
+            ResultSet resultSet = statement.executeQuery();
+            List<Report> reports = new ArrayList<>();
+            while (resultSet.next()){
+                reports.add(
+                        new Report(
+                                resultSet.getLong("reportId"),
+                                resultSet.getLong("userId"),
+                                resultSet.getLong("themeId"),
+                                resultSet.getString("reportText"),
+                                Status.valueOf(resultSet.getString("status"))
+                        )
+                );
+            }
+            return reports;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public void setReportText(long reportId, String text) {
+        try{
+            System.out.println(reportId);
+            System.out.println(text);
+            String UPDATE_STATEMENT = """
+                    UPDATE reports SET reportText = ? WHERE reportId = ?
+                    """;
+            PreparedStatement statement = connection.prepareStatement(UPDATE_STATEMENT);
+            statement.setString(1, text);
+            statement.setLong(2, reportId);
+            statement.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public List<Report> getUncheckedReports() {
+        try{
+            String GET_STATEMENT = """
+                    SELECT * FROM reports WHERE status = 'UNCHECKED'
+                    """;
+            PreparedStatement statement = connection.prepareStatement(GET_STATEMENT);
+            ResultSet resultSet = statement.executeQuery();
+            List<Report> reports = new ArrayList<>();
+            while (resultSet.next()){
+                reports.add(
+                        new Report(
+                                resultSet.getLong("reportId"),
+                                resultSet.getLong("userId"),
+                                resultSet.getLong("themeId"),
+                                resultSet.getString("reportText"),
+                                Status.valueOf(resultSet.getString("status"))
+                        )
+                );
+            }
+            return reports;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 }
